@@ -62,7 +62,7 @@ const HeaderFileMenu: FC<Props> = ({ designName, onRemove }) => {
     () => (size?.width || 0) < 100 || (size?.height || 0) < 100,
     [size]
   );
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -72,7 +72,49 @@ const HeaderFileMenu: FC<Props> = ({ designName, onRemove }) => {
     return null;
   }
 
+  const currentPath = window.location.pathname;
+
   const menuData: DropdownMenuItem[] = [
+    {
+      label: '英語',
+      type: 'submenu',
+      items: [
+        {
+          label: 'ワークシート',
+          type: 'normal',
+          selected: currentPath === '/english/worksheet',
+          action: () => { window.location.href = '/english/worksheet'; },
+        },
+        {
+          label: 'フラッシュカード',
+          type: 'normal',
+          disabled: true,
+        },
+      ],
+    },
+    {
+      label: '国語（準備中）',
+      type: 'normal',
+      disabled: true,
+    },
+    {
+      label: '算数（準備中）',
+      type: 'normal',
+      disabled: true,
+    },
+    {
+      label: 'その他',
+      type: 'submenu',
+      items: [
+        {
+          label: 'キャンバス',
+          type: 'normal',
+          selected: currentPath === '/others/canvas',
+          action: () => { window.location.href = '/others/canvas'; },
+        },
+      ],
+    },
+    { label: 'Divider', type: 'divider' },
     {
       label: t('header.createNewDesign', 'Create new design'),
       type: 'submenu',

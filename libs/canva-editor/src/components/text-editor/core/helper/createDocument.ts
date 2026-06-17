@@ -1,4 +1,4 @@
-import { createNodeFromContent } from './createNodeFromContent.js';
+import { createNodeFromContent } from './createNodeFromContent';
 import { Schema } from 'prosemirror-model';
 
 export function createDocument(content: string, schema: Schema) {

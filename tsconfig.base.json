@@ -18,8 +18,8 @@
     "jsxImportSource": "@emotion/react",
     "paths": {
       "@canva-web/*": ["./apps/canva-web/*"],
-      // "canva-editor": ["./dist/libs/canva-editor/index.js"]
-      // "canva-editor": ["./dist/libs/canva-editor/index.js"]
+      "canva-editor": ["./libs/canva-editor/src/index.ts"],
+      "canva-editor/*": ["./libs/canva-editor/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

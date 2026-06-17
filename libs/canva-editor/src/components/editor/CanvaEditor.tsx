@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, PropsWithChildren, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { EditorConfig } from 'canva-editor/types';
 import { EditorContext } from './EditorContext';
 import { useEditorStore } from '../../hooks/useEditorStore';
@@ -15,6 +15,7 @@ import {
   TranslationContext,
   createTranslateFunction,
 } from '../../contexts/TranslationContext';
+import EditorExtensionsContext, { SidebarExtension } from '../../contexts/EditorExtensionsContext';
 
 export type EditorProps = {
   data?: {
@@ -26,6 +27,8 @@ export type EditorProps = {
   onChanges: (changes: any) => void;
   onDesignNameChanges: (name: any) => void;
   onRemove: () => void;
+  renderBackground?: (pageIndex: number) => ReactNode;
+  sidebarExtension?: SidebarExtension;
 };
 
 const CanvaEditor: FC<PropsWithChildren<EditorProps>> = ({
@@ -35,6 +38,8 @@ const CanvaEditor: FC<PropsWithChildren<EditorProps>> = ({
   onChanges,
   onDesignNameChanges,
   onRemove,
+  renderBackground,
+  sidebarExtension,
 }) => {
   const version = '1.0.69';
   const { getState, actions, query } = useEditorStore();
@@ -66,7 +71,19 @@ const CanvaEditor: FC<PropsWithChildren<EditorProps>> = ({
     return { messages, translate };
   }, [config.translations]);
 
+  const extensionsContextValue = useMemo(
+    () => ({ renderBackground, sidebarExtension }),
+    [renderBackground, sidebarExtension]
+  );
+
   return (
+    /**
+     * ReactのContext（コンポーネントツリーの中で、propsを一つ一つ手渡しせずにどこからでもデータを参照できる）という仕組み
+     * renderBackgroundやsidebarExtensionを全子孫コンポーネントに配布
+     * 引数で渡ってきたワークシートの背景描画関数やサイドバー拡張を子孫コンポーネントでuseEditorExtensions()して取り出して使えるようにしている
+     * Provider = 「この値、子孫全員が自由に使っていいよ」と宣言する箱。propsで何段も渡す手間がなく、必要な場所でだけ取り出せるのが利点
+     */
+    <EditorExtensionsContext.Provider value={extensionsContextValue}>
     <TranslationContext.Provider value={translationContextValue}>
       <EditorContext.Provider value={{ config, getState, actions, query }}>
       {!isPreview ? (
@@ -191,6 +208,7 @@ const CanvaEditor: FC<PropsWithChildren<EditorProps>> = ({
       )}
       </EditorContext.Provider>
     </TranslationContext.Provider>
+    </EditorExtensionsContext.Provider>
   );
 };
 

@@ -1,5 +1,5 @@
 web_up:
-	npx nx serve canva-web
+	npx nx dev canva-web
 
 admin_up:
 	cd apps/canva-admin && npm run develop

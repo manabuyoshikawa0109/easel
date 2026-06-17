@@ -43,6 +43,8 @@ import ArrowDownIcon from 'canva-editor/icons/ArrowDownIcon';
 import AddNewPageIcon from 'canva-editor/icons/AddNewPageIcon';
 import EditInlineInput from '../EditInlineInput';
 import { useTranslate } from 'canva-editor/contexts/TranslationContext';
+import BackgroundTemplate from '../background/BackgroundTemplate';
+import { useEditorExtensions } from '../../contexts/EditorExtensionsContext';
 
 export interface PageProps {
   pageIndex: number;
@@ -79,6 +81,9 @@ const DesignPage: ForwardRefRenderFunction<HTMLDivElement, PageProps> = (
     {}
   );
   const { selectedLayerIds, selectedLayers } = useSelectedLayers();
+  const { renderBackground } = useEditorExtensions();
+  // 背景が渡されているか
+  const hasBackground = !!renderBackground;
   const disabled = useDisabledFeatures();
   const t = useTranslate();
   const {
@@ -468,8 +473,9 @@ const DesignPage: ForwardRefRenderFunction<HTMLDivElement, PageProps> = (
           ref={pageRef}
           css={{
             background: 'white',
-            overflow: 'hidden',
+            overflow: hasBackground ? 'visible' : 'hidden',
             transformOrigin: '0 0',
+            position: 'relative',
           }}
           style={{
             width: width,
@@ -478,6 +484,13 @@ const DesignPage: ForwardRefRenderFunction<HTMLDivElement, PageProps> = (
           }}
           onContextMenu={openContextMenu}
         >
+          {/*
+            ここでキャンバス背景の表示切り替えを行う
+            renderBackgroundあり：renderBackgroundを描画
+            renderBackgroundなし：nullを返す（何も描画しない）
+            背景が渡されるとキャンバス前面にその背景が描画され、キャンバス要素はクリック不可となる
+          */}
+          <BackgroundTemplate pageIndex={pageIndex} width={width} height={height} />
           <div
             ref={displayRef}
             className='page-content'
@@ -488,9 +501,11 @@ const DesignPage: ForwardRefRenderFunction<HTMLDivElement, PageProps> = (
               left: 0,
               top: 0,
               zIndex: 1,
-              overflow: 'hidden'
+              overflow: 'hidden',
+              pointerEvents: hasBackground ? 'none' : undefined,
             }}
           >
+            {/* 通常キャンバスの要素 */}
             <PageElement />
           </div>
         </div>

@@ -13,7 +13,17 @@
       "react-dom": "^19.2.0",
       "@types/react": "^19.2.6",
       "@types/react-dom": "^19.2.3"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "core-js",
+      "core-js-pure",
+      "esbuild",
+      "nx",
+      "sharp",
+      "unrs-resolver"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -22,6 +32,7 @@
     "@eslint/eslintrc": "^2.1.1",
     "@eslint/js": "^9.8.0",
     "@next/eslint-plugin-next": "^15.2.4",
+    "@nx/next": "20.8.4",
     "@playwright/test": "^1.36.0",
     "@swc-node/register": "~1.9.1",
     "@swc/cli": "~0.6.0",
@@ -66,7 +77,19 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@vitejs/plugin-react": "^4.2.0",
+    "@nx-extend/strapi": "^12.1.1",
+    "@nx/devkit": "20.7.2",
+    "@nx/esbuild": "^20.8.1",
+    "@nx/eslint": "20.7.2",
+    "@nx/eslint-plugin": "20.7.2",
+    "@nx/jest": "20.8.1",
+    "@nx/js": "20.8.4",
+    "@nx/node": "^20.8.1",
+    "@nx/playwright": "20.7.2",
+    "@nx/react": "^20.8.1",
+    "@nx/vite": "^20.8.1",
+    "@nx/web": "20.8.1",
+    "@nx/workspace": "20.7.2",
     "@radix-ui/react-avatar": "^1.1.7",
     "@radix-ui/react-dialog": "^1.1.11",
     "@radix-ui/react-dropdown-menu": "^2.1.12",
@@ -78,6 +101,7 @@
     "@stripe/react-stripe-js": "^3.9.0",
     "@stripe/stripe-js": "^7.8.0",
     "@types/qs": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.0",
     "better-auth": "^1.2.6",
     "canva-editor": "workspace:*",
     "class-variance-authority": "^0.7.1",
@@ -97,6 +121,7 @@
     "next": "^16.0.0",
     "next-intl": "^4.5.5",
     "next-themes": "^0.4.6",
+    "nx": "20.8.1",
     "postgres": "^3.4.5",
     "qs": "^6.14.0",
     "react-qr-code": "^2.0.15",
@@ -112,24 +137,12 @@
     "vite": "^6.3.3",
     "vite-plugin-dts": "~4.5.0",
     "yup": "^1.6.1",
-    "zustand": "^5.0.3",
-    "@nx-extend/strapi": "^12.1.1",
-    "@nx/devkit": "20.7.2",
-    "@nx/esbuild": "^20.8.1",
-    "@nx/eslint": "20.7.2",
-    "@nx/eslint-plugin": "20.7.2",
-    "@nx/jest": "20.8.1",
-    "@nx/js": "20.8.1",
-    "@nx/next": "^20.7.2",
-    "@nx/node": "^20.8.1",
-    "@nx/playwright": "20.7.2",
-    "@nx/react": "^20.8.1",
-    "@nx/vite": "^20.8.1",
-    "@nx/web": "20.8.1",
-    "@nx/workspace": "20.7.2",
-    "nx": "20.8.1"
+    "zustand": "^5.0.3"
   },
   "nx": {
     "includedScripts": []
+  },
+  "comments": {
+    "onlyBuiltDependencies": "postinstall(ライブラリのインストール後に自動実行される処理)などの実行を許可する依存パッケージ(このeaselアプリが利用する外部ライブラリ)のホワイトリスト(=セキュリティ対策)"
   }
 }

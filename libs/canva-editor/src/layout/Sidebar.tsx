@@ -5,6 +5,7 @@ import ImageContent from './sidebar/ImageContent';
 import TemplateContent from './sidebar/TemplateContent';
 import FrameContent from './sidebar/FrameContent';
 import { useEditor } from 'canva-editor/hooks';
+import { useEditorExtensions } from 'canva-editor/contexts/EditorExtensionsContext';
 
 // Icons
 import LayoutIcon from 'canva-editor/icons/LayoutIcon';
@@ -42,7 +43,14 @@ const Sidebar: FC<{ version: string }> = ({ version }) => {
   const { actions, state } = useEditor();
   const isMobile = useMobileDetect();
   const t = useTranslate();
+  const { sidebarExtension } = useEditorExtensions();
+
+  const extensionTab = sidebarExtension
+    ? [sidebarExtension.tab]
+    : [];
+
   const tabs = [
+    ...extensionTab,
     {
       name: 'Template',
       displayName: t('sidebar.template', 'Template'),
@@ -117,6 +125,14 @@ const Sidebar: FC<{ version: string }> = ({ version }) => {
             }}
           />
         );
+      default:
+        if (sidebarExtension && tabName === sidebarExtension.tab.name) {
+          return <>{sidebarExtension.renderContent(() => {
+            actions.setSidebarTab();
+            actions.setSidebar();
+          })}</>;
+        }
+        return null;
       case 'Notes':
         return <Notes placeholder={t('sidebar.notesPlaceholder', 'Notes will be displayed in Presenter View')} />;
     }

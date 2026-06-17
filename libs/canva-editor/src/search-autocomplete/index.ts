@@ -1,2 +1,2 @@
-import SearchBox from './SearchBox.js';
+import SearchBox from './SearchBox';
 export { SearchBox };
