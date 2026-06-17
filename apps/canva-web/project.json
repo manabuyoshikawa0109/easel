@@ -1,0 +1,9 @@
+{
+  "name": "canva-web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/canva-web",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project canva-web --web",
+  "targets": {}
+}
